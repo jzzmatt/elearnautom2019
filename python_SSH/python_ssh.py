@@ -15,6 +15,9 @@ COMMAND_LST = [
 ]
 
 def read_pyaml(path='inventory.yml'):
+    '''
+    Reads inventory yaml and return dictionnary with parsed yamls
+    '''
     with open(path) as file:
         yaml_content = yaml.load(file)
     return yaml_content
@@ -56,11 +59,14 @@ def collect_outps(devices, commands):
     for device in devices:
         hostname = device.pop('hostname')
         connection = netmiko.ConnectHandler(**device)
-        device_result = ['=' * 20 + hostname + '=' * 20]
+        device_result = ['{0} {1} {0}'.format('='* 20, hostname)]
+        
         for command in commands:
             command_result = connection.send_command(command)
-            device_result.append('=' * 20 + command_result + '=' * 20)
+            device_result.append('{0} {1} {0}'.format('= * 20', command))
+            device_result.append(command_result)
         device_result_string = '\n\n'.join(device_result)
+        connection.close()
         yield device_result_string
 
 
