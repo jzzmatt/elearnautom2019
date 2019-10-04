@@ -60,13 +60,13 @@ def collect_outps(devices, commands):
         hostname = device.pop('hostname')
         connection = netmiko.ConnectHandler(**device)
         device_result = ['{0} {1} {0}'.format('='* 20, hostname)]
-        
+
         for command in commands:
             command_result = connection.send_command(command)
             device_result.append('{0} {1} {0}'.format('= * 20', command))
             device_result.append(command_result)
         device_result_string = '\n\n'.join(device_result)
-        connection.close()
+        connection.disconnect()
         yield device_result_string
 
 
