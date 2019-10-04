@@ -63,7 +63,7 @@ def collect_outps(devices, commands):
 
         for command in commands:
             command_result = connection.send_command(command)
-            device_result.append('{0} {1} {0}'.format('= * 20', command))
+            device_result.append('{0} {1} {0}'.format('='* 20, command))
             device_result.append(command_result)
         device_result_string = '\n\n'.join(device_result)
         connection.disconnect()
