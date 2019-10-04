@@ -1,0 +1,48 @@
+LAB
+===
+CSR1 => vrf Management=> 192.168.122.11/24      
+                        |gtw 192.168.122.1/24 | 
+                        ip domain net4sure.local | 
+                        username: admin , password: admin
+
+ip address:
+10.0.0.0/8
+PC1 -VLAN 10 - 10.1.10.0/24
+PC2 -VLAN 20 - 10.1.20.0/24
+P2P  - 10.1.0.0/24 ,use /30 
+
+
+
+### MINI TEMPLATE ###
+hostname SJ-R1
+!
+vrf definition Management
+ !
+ address-family ipv4
+ exit-address-family
+!
+interface GigabitEthernet0/0
+ description link to Controller
+ vrf forwarding Management
+ ip address 192.168.122.11 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ no shutdown
+!
+ 
+ip route vrf Management 0.0.0.0 0.0.0.0 192.168.122.1 name NAT
+!
+username admin privilege 15 password 0 admin
+!
+ip domain name net4sure.local
+!
+ip name-server vrf Management 192.168.122.1
+!
+crypto key generate rsa modulus 1024
+!
+line vty 0 4
+ privilege level 15
+ login local
+ transport input all
+!

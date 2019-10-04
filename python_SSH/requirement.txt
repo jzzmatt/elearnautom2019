@@ -1,0 +1,14 @@
+#Dependency in Terms of Library
+#pip freeze | grep <library name>  > check if thereis installed a lib
+#Create virtual Env for separate Project and Lib in Python
+#python3 -m env venv ~/virtualenvs/netdevops
+#source ~/virtualenvs/netdevops/bin/activate
+#pip3 install -r requirements.txt    #this help to download all the requirements lib are inside 
+#identent crt + ]
+
+paramiko==2.4.3
+netmiko==2.0.0
+PyYaml==3.12
+scp = 0.132
+pyserial
+

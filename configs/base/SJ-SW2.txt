@@ -1,0 +1,34 @@
+hostname SJ-SW2
+!
+vrf definition Management
+ !
+ address-family ipv4
+ exit-address-family
+ vrf forwarding Management
+!
+interface GigabitEthernet0/0
+ no switchport
+ description link to Controller
+ vrf forwarding Management
+ ip address 192.168.122.14 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ no shutdown
+end
+!
+conf t
+ip route vrf Management 0.0.0.0 0.0.0.0 192.168.122.1 name NAT
+!
+username admin privilege 15 password 0 admin
+!
+ip domain name net4sure.local
+ip name-server vrf Management 192.168.122.1
+!
+crypto key generate rsa modulus 1024
+!
+line vty 0 4
+ privilege level 15
+ login local
+ transport input all
+!
