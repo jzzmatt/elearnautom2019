@@ -5,10 +5,12 @@
 #source ~/virtualenvs/netdevops/bin/activate
 #pip3 install -r requirements.txt    #this help to download all the requirements lib are inside 
 #identent crt + ]
+#do-release-upgrade
 
 paramiko==2.4.3
 netmiko==2.0.0
 PyYaml==3.12
 scp = 0.132
 pyserial
+netdev
 

@@ -1,0 +1,14 @@
+CONCEPT OF ASYNC
+SYNC Code function.
+Normal default behaviour, a function run when other function return , untill a upper funciont doenst' return
+the bellow function , wait
+
+When using Treading, +> Treading run multiple task by using a Parent Process and child or subprocess on the Parent One
+Parallelism +> is the Possibility to run,  multiple Process or thread in parallel, so that the bellow  function doesnt need
+to wait for the upper function to return.
+
+Now ASYNC come with other attributes.
+It's first enable to run on one Process. or One Thread.
+And give to hability to Fuction to resume, suspend or work on cooroutin.
+But. for accomplish this , the function have to be built to be compatible with ASYNC.
+in ASYNC function cannot contains: time sleep, no socket....ect
