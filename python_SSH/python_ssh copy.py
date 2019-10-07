@@ -49,7 +49,7 @@ def from_connection_params_from_yaml(format_yaml, site='all'):
         #result[hostname] = host_dict
     #return result
 
-def collect_outps(devices, commands):
+async def collect_outps(device_params, commands):
     '''
     args:
        devices: dict of Devices or Host, where key is the hostname, value is netmiko connection dictionary
@@ -58,28 +58,28 @@ def collect_outps(devices, commands):
     returns:
        dict: key is the hostname, value is the string of all outputs
     '''
-    for device in devices:
-        hostname = device.pop('hostname')
-        connection = netmiko.ConnectHandler(**device)
+    hostname = device_params.pop('hostname')
+    async with netdev.create(**device_params) as connection:
         device_result = ['{0} {1} {0}'.format('='* 20, hostname)]
 
         for command in commands:
-            command_result = connection.send_command(command)
+            command_result = await connection.send_command(command)
             device_result.append('{0} {1} {0}'.format('='* 20, command))
             device_result.append(command_result)
+
         device_result_string = '\n\n'.join(device_result)
-        connection.disconnect()
         return device_result_string
 
 
 def main():
    parsed_yaml = read_pyaml()
    loop = asyncio.get_event_loop()
-   tasks = [loop.create_task(collect_outps(device, COMMAND_LST)) for device in from_connection_params_from_yaml(parsed_yaml)]
+   tasks = [loop.create_task(collect_outps(device, COMMAND_LST)) 
+            for device in from_connection_params_from_yaml(parsed_yaml, site="SJ-HQ")]
    loop.run_until_complete(asyncio.wait(tasks))
 
    for task in tasks:
-       print(task.result)
+       print(task.result())
 
    
 
