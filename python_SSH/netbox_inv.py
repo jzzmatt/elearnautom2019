@@ -3,12 +3,12 @@ from __future__ import print_function, unicode_literals
 import requests
 import json
 import yaml
-import pprint import pprint
+from pprint import pprint
 import argparse
 import sys
 import netaddr
 
-NETBOX_URL = 'http://192.168.122.116/api'
+NETBOX_URL = 'http://192.168.122.116:8000/api'
 NETBOX_RESSOURCES = {
     'devices' : '/dcim/devices',
     'sites' : '/dcim/sites/',
@@ -16,7 +16,7 @@ NETBOX_RESSOURCES = {
     'interfaces': '/dcim/interfaces',
 }
 
-TOKEN = ''
+TOKEN = '91e9482beba078638f98f936bdbf8b745bcd0dce'
 HEADERS = {
     'Authorization': 'Token {}'.format(TOKEN),
     'Content_Type': 'application/json',
@@ -30,4 +30,4 @@ def netbox_query(resources, query_params=None):
 
 nbx_devices = netbox_query('devices')
 
-pprint(nbx_devices)
+print(nbx_devices)
