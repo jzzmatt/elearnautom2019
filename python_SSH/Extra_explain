@@ -12,3 +12,10 @@ It's first enable to run on one Process. or One Thread.
 And give to hability to Fuction to resume, suspend or work on cooroutin.
 But. for accomplish this , the function have to be built to be compatible with ASYNC.
 in ASYNC function cannot contains: time sleep, no socket....ect
+
+
+GENERATOR
+a Generate it's a function that can suspend and resume, that it's the difference , with regular function, 
+that only return a value, then finish
+A Generator Function, can yield a value. and nows where he left of , to yield the next value
+it's a way of generate a list of item on fly
