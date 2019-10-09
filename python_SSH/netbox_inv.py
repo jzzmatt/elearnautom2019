@@ -31,6 +31,11 @@ SITES = [
 
 ]
 
+
+SITES_IDS = {
+    ''
+}
+
 def netbox_query(resources, query_params=None):
     '''
     Perform a Simple Query to Netbox via Device API
@@ -67,6 +72,29 @@ def push_sites_to_api():
         nbx_add_site(**site)
         print("site {} created !!".format(site['name']))
         time.sleep(1)
+
+
+def get_nbx_site_id(resources, query_params=None):
+    return requests.get(NETBOX_URL + NETBOX_RESSOURCES[resources],params=query_params, headers=HEADERS)
+    
+
+
+
+def nbx_add_device(name, device_type_id, site_id, device_role_id):
+    '''
+    name: name of the Device . eg SW1
+    device_type_id: CSR1000v, C6500 #this is match or link to manufacture, here is #2
+    site_id: site_id here is #1
+    device_role_id: eg CORE-Switch, Edge, Access-Switch
+    '''
+    data = {
+        'name': name,
+        'display_name': name,
+        'device_type': device_type_id,
+        'device_role': device_role_id,
+        'site': site_id,
+        'status': 1
+    }
 
 
 def main():
