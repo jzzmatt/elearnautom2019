@@ -8,6 +8,7 @@ import argparse
 import sys
 import netaddr
 import time
+from python_sshv2 import read_pyaml, from_device_params_from_yaml
 
 NETBOX_URL = 'http://192.168.122.116:8000/api'
 NETBOX_RESSOURCES = {
@@ -25,16 +26,7 @@ HEADERS = {
     'Accept': 'application/json'
 }
 
-SITES = [
-    {'name': 'LUENA', 'slug': 'luen'}, 
-    {'name': 'HUAMBO', 'slug': 'huamb'}
 
-]
-
-
-SITES_IDS = {
-    ''
-}
 
 def netbox_query(resources, query_params=None):
     '''
@@ -100,16 +92,34 @@ def nbx_add_device(name, device_type_id, site_id, device_role_id):
         'name': name,
         'display_name': name,
         'device_type': device_type_id,
-        'device_role': device_role_id,
         'site': site_id,
-        'status': 1
+        'status': 1,
     }
 
+    if device_role_id is not None:
+        data['device_role'] = device_role_id
+
+    req = requests.post(
+        NETBOX_URL + NETBOX_RESSOURCES['devices'], headers=HEADERS, json=data
+    )
+
+    if req.status_code == 200 or req.status_code == 201:
+        print("Device {} was added sucessfully")
+    else:
+        req.raise_for_status()
+
+def add_devices():
+    parsed_yaml = read_pyaml()
+    devices_params_gen = from_device_params_from_yaml(parsed_yaml)
+    for device_params in devices_params_gen:
+        nbx_add_device(**device_params)
+    print('All devices have been imported')
 
 def main():
     #nbx_devices = netbox_query('devices')
     #print(nbx_devices)
-    print(get_sites_id())
+    #print(get_sites_id())
+    add_devices()
 
 if __name__ == '__main__':
     main()
