@@ -7,6 +7,7 @@ from pprint import pprint
 import argparse
 import sys
 import netaddr
+import time
 
 NETBOX_URL = 'http://192.168.122.116:8000/api'
 NETBOX_RESSOURCES = {
@@ -25,9 +26,9 @@ HEADERS = {
 }
 
 SITES = [
-    {'name': 'CABINDA', 'slug': 'cab'},
-    {'name': 'LUBANGO', 'slug': 'lub'},
- 
+    {'name': 'LUENA', 'slug': 'luen'}, 
+    {'name': 'HUAMBO', 'slug': 'huamb'}
+
 ]
 
 def netbox_query(resources, query_params=None):
@@ -42,7 +43,7 @@ nbx_devices = netbox_query('devices')
 
 print(nbx_devices)
 
-def nbx_add_site(name='', slug=None):
+def nbx_add_site(name, slug):
     '''
     Manualy Add a Device from a Yaml Inventory to Netbox API 
     '''
@@ -51,9 +52,9 @@ def nbx_add_site(name='', slug=None):
         'slug' : slug,
     }
     req = requests.post(NETBOX_URL + NETBOX_RESSOURCES['sites'], headers=HEADERS, json=data)
-    if req.status_code == 201:
-        #201 => mean sucess
-        print(f'==>Site {name} was created Successfully')
+    if req.status_code == 200 or req.status_code == 201:
+        #200 => mean sucess
+        print('==>Site {} was created Successfully'.format(name))
     else:
         req.raise_for_status()
 
@@ -64,6 +65,8 @@ def push_sites_to_api():
     '''
     for site in SITES:
         nbx_add_site(**site)
+        print("site {} created !!".format(site['name']))
+        time.sleep(1)
 
 
 def main():
