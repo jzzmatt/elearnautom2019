@@ -44,9 +44,6 @@ def netbox_query(resources, query_params=None):
         NETBOX_URL + NETBOX_RESSOURCES[resources], params=query_params, headers=HEADERS
     )
 
-nbx_devices = netbox_query('devices')
-
-print(nbx_devices)
 
 def nbx_add_site(name, slug):
     '''
@@ -76,8 +73,6 @@ def push_sites_to_api():
 
 def get_nbx_site_id(resources, query_params=None):
     return requests.get(NETBOX_URL + NETBOX_RESSOURCES[resources],params=query_params, headers=HEADERS)
-    
-
 
 
 def nbx_add_device(name, device_type_id, site_id, device_role_id):
@@ -98,7 +93,11 @@ def nbx_add_device(name, device_type_id, site_id, device_role_id):
 
 
 def main():
-    push_sites_to_api()
+    #nbx_devices = netbox_query('devices')
+    #print(nbx_devices)
+    sites_dicts = get_nbx_site_id('sites')
+    print(sites_dicts)
+    #push_sites_to_api()
 
 if __name__ == '__main__':
     main()
