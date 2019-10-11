@@ -8,9 +8,16 @@ import argparse
 import sys
 import netaddr
 import time
-from python_sshv2 import read_pyaml, from_device_params_from_yaml
+from helper import * 
 
-NETBOX_URL = 'http://192.168.122.116:8000/api'
+def test_site():
+  SITES = [{
+       'name': "HUNGRY",
+       'slug': "hu",
+     }]
+
+
+NETBOX_URL = 'http://10.30.107.55:32770/api'
 NETBOX_RESSOURCES = {
     'devices' : '/dcim/devices',
     'sites' : '/dcim/sites/',
@@ -19,7 +26,7 @@ NETBOX_RESSOURCES = {
 }
 
 
-TOKEN = '91e9482beba078638f98f936bdbf8b745bcd0dce'
+TOKEN = '0123456789abcdef0123456789abcdef01234567'
 HEADERS = {
     'Authorization': 'Token {}'.format(TOKEN),
     'Content_Type': 'application/json',
@@ -46,7 +53,7 @@ def nbx_add_site(name, slug):
         'slug' : slug,
     }
     req = requests.post(NETBOX_URL + NETBOX_RESSOURCES['sites'], headers=HEADERS, json=data)
-    if req.status_code == 200 or req.status_code == 201:
+    if req.status_code == 201:
         #200 => mean sucess
         print('==>Site {} was created Successfully'.format(name))
     else:
@@ -63,13 +70,13 @@ def push_sites_to_api():
         time.sleep(1)
 
 
-def get_nbx_site_id(resources, query_params=None):
+def get_nbx_site(resources, query_params=None):
     return requests.get(NETBOX_URL + NETBOX_RESSOURCES[resources],params=query_params, headers=HEADERS)
 
 
 def get_sites_id():
     sites_ids = {}
-    sites_dicts = get_nbx_site_id('sites')
+    sites_dicts = get_nbx_site('sites')
     query_sites = sites_dicts.json()
     #print(type(query_sites['results']))
    
@@ -81,30 +88,30 @@ def get_sites_id():
                   sites_ids[v['name']] = obj['id']
     return sites_ids
 
-def nbx_add_device(name, device_type_id, site_id, device_role_id):
+def nbx_add_device(name, display_name, device_type, site,status, device_role=None):
     '''
     name: name of the Device . eg SW1
-    device_type_id: CSR1000v, C6500 #this is match or link to manufacture, here is #2
-    site_id: site_id here is #1
-    device_role_id: eg CORE-Switch, Edge, Access-Switch
+    device_type: CSR1000v, C6500 #this is match or link to manufacture, here is #2
+    site: site here is #1
+    device_role: eg CORE-Switch, Edge, Access-Switch
     '''
     data = {
-        'name': name,
-        'display_name': name,
-        'device_type': device_type_id,
-        'site': site_id,
-        'status': 1,
+        "name": str(name),
+        "display_name": str(display_name),
+        "device_type": device_type,
+        "site": site,
+        "status": 1,
     }
 
-    if device_role_id is not None:
-        data['device_role'] = device_role_id
+    if device_role is not None:
+        data["device_role"] = device_role
 
     req = requests.post(
         NETBOX_URL + NETBOX_RESSOURCES['devices'], headers=HEADERS, json=data
     )
 
     if req.status_code == 200 or req.status_code == 201:
-        print("Device {} was added sucessfully")
+        print("Device {} was added sucessfully".format(data['name']))
     else:
         req.raise_for_status()
 
@@ -112,7 +119,10 @@ def add_devices():
     parsed_yaml = read_pyaml()
     devices_params_gen = from_device_params_from_yaml(parsed_yaml)
     for device_params in devices_params_gen:
+        print(device_params)
         nbx_add_device(**device_params)
+        time.sleep(1)
+        break
     print('All devices have been imported')
 
 def main():
@@ -120,6 +130,8 @@ def main():
     #print(nbx_devices)
     #print(get_sites_id())
     add_devices()
+    #push_sites_to_api()
+    #print(SITES)
 
 if __name__ == '__main__':
     main()

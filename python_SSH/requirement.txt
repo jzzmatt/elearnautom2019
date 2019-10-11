@@ -13,4 +13,4 @@ PyYaml==3.12
 scp = 0.132
 pyserial
 netdev
-
+requests

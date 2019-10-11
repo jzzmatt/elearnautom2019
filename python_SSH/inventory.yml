@@ -5,9 +5,9 @@ all:
      password: admin
 
   sites:
-    - name: "SAN JOSE"
+    - name: san-jose
       hosts:
-        - hostname: SJ-R1
+        - hostname: "SJ-R1"
           host: 192.168.122.11
           device_type_netmiko: cisco_ios
           device_type: CSR1000v
@@ -20,20 +20,20 @@ all:
         - hostname: SJ-SW1
           host: 192.168.122.13
           device_type_netmiko: cisco_ios
-          device_type: IOSv_L2
+          device_type: IOSv-L2
           device_role: access
         - hostname: SJ-SW2
           host: 192.168.122.14
           device_type_netmiko: cisco_ios
-          device_type: IOSv_L2
+          device_type: IOSv-L2
           device_role: access
         - hostname: SJ-HUB1
           host: 192.168.122.15
           device_type_netmiko: cisco_ios
-          device_type: CSR
+          device_type: CSR1000v
           device_role: edge
 
-    - name: BRUXELS
+    - name: bruxels
       hosts:
         - hostname: BRU-EDGE
           host: 192.168.122.20
