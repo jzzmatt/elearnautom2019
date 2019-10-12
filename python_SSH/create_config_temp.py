@@ -35,7 +35,7 @@ def create_device_config(name):
     }
     
     device_netbx_dict = requests.get(
-        NETBOX_RESSOURCES + NETBOX_RESSOURCES['devices'],
+        NETBOX_URL + NETBOX_RESSOURCES['devices'],
         params=query_params,
         headers=HEADERS
     ).json()
