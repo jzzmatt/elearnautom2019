@@ -79,7 +79,7 @@ def create_device_config(name):
                 if intf_dict['enabled']:
                     interface_config_list.append('no shutdown')
 
-                interface_config = "\n".join(interface_config_list)
+            interface_config = "\n".join(interface_config_list)
 
             result.append("interface {}\n{}\n!".format(interface_name, interface_config))
    
