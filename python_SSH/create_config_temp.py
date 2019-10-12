@@ -63,25 +63,24 @@ def create_device_config(name):
 
 
     if manufacturer.lower() == 'cisco':
-        result.append('hostname {}'.format(name))
+        result.append('hostname {}\n!'.format(name))
         for interface_dict in ip_addr_netbox_dict:
             interface_config_list = []
             interface_name = interface_dict["interface"]["name"]
-            #print(interface_name)
+            interface_description = " description {}".format(interface_dict['description'])
             ip_address = IPv4Interface(interface_dict["address"])
-            interface_config_list.append(interface_dict['description'])
-            interface_config_list.append('ip address {} {}'.format(ip_address.ip, ip_address.netmask))
+            interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
             for intf_dict in interfaces_dict:
                 if intf_dict['name'] == interface_name and (intf_dict['form_factor']['label'] != "Virtual"):
-                    interface_config_list.append('no switchport')
+                    interface_config_list.append(' no switchport')
 
-            interface_config_list.append('no shutdown')
+            interface_config_list.append(' no shutdown')
                     
 
             interface_config = "\n".join(interface_config_list)
 
-            result.append("interface {}\n{}\n!".format(interface_name, interface_config))
+            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_description,inter interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
