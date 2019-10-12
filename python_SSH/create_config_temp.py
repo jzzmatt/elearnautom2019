@@ -77,6 +77,8 @@ def create_device_config(name):
             
                 if intf_dict['enabled']:
                     interface_config_list.append('no shutdown')
+                
+                continue
 
             interface_config = "\n".join(interface_config_list)
 
