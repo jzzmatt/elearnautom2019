@@ -19,3 +19,4 @@ a Generate it's a function that can suspend and resume, that it's the difference
 that only return a value, then finish
 A Generator Function, can yield a value. and nows where he left of , to yield the next value
 it's a way of generate a list of item on fly
+
