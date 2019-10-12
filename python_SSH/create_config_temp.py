@@ -72,13 +72,10 @@ def create_device_config(name):
             interface_config_list.append('ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
             for intf_dict in interfaces_dict:
-                if intf_dict['name'] == interface_name and (intf_dict['form_factor']['label'] != "Virtual"):
+                while intf_dict['name'] == interface_name and (intf_dict['form_factor']['label'] != "Virtual"):
                     interface_config_list.append('no switchport')
-            
-                if intf_dict['enabled']:
                     interface_config_list.append('no shutdown')
-                
-                continue
+                    
 
             interface_config = "\n".join(interface_config_list)
 
