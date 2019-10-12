@@ -66,15 +66,13 @@ def create_device_config(name):
         result.append('hostname {}\n!'.format(name))
         for interface_dict in ip_addr_netbox_dict:
             interface_config_list = []
-            interface_dsc = ""
             interface_name = interface_dict["interface"]["name"]
+            interface_dsc = interface_dsc['description']
             ip_address = IPv4Interface(interface_dict["address"])
             interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
             for interface in interfaces_dict:
-                if len(interface_dsc) <= 0:
-                    interface_dsc += " description {}".format(interface['description']) 
-                    
+                #   interface_dsc = " description {}".format(interface['description'])    
                 if interface['name'] == interface_name and (interface['form_factor']['label'] != "Virtual"):
                         interface_config_list.append(' no switchport')
 
