@@ -10,11 +10,11 @@ import netaddr
 import time
 from helper import * 
 
-def test_site():
-  SITES = [{
-       'name': "HUNGRY",
-       'slug': "hu",
-     }]
+#def test_site():
+#  SITES = [{
+#       'name': "HUNGRY",
+#       'slug': "hu",
+#     }]
 
 
 NETBOX_URL = 'http://10.30.107.55:32770/api'
