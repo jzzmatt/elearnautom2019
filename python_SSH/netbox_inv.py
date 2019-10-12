@@ -106,8 +106,12 @@ def nbx_add_device(name, display_name, device_type, site, status, device_role=No
     if device_role is not None:
         data["device_role"] = device_role
 
+    data_format_json = json.dumps(data)
+    print(data_format_json)
+
+
     req = requests.post(
-        NETBOX_URL + NETBOX_RESSOURCES['devices'], headers=HEADERS, json=data
+        NETBOX_URL + NETBOX_RESSOURCES['devices'], headers=HEADERS, json=data_format_json
     )
 
     if req.status_code == 201:
@@ -119,9 +123,9 @@ def add_devices():
     parsed_yaml = read_pyaml()
     devices_params_gen = from_device_params_from_yaml(parsed_yaml)
     for device_params in devices_params_gen:
-        json_format = json.dumps(device_params)
-        print(json_format)
-        nbx_add_device(**json_format)
+        #json_format = json.dumps(device_params)
+        #print(json_format)
+        nbx_add_device(**device_params)
         time.sleep(1)
         break
     print('All devices have been imported')
