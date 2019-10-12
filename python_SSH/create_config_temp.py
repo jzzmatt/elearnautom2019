@@ -52,9 +52,9 @@ def create_device_config(name):
          NETBOX_URL + NETBOX_RESSOURCES['devices'],
          params=query_params,
          headers=HEADERS
-         ).json()['results']
+         ).json()['results'] 
 
-    if manufacturer.low() == 'cisco':
+    if manufacturer.lower() == 'cisco':
         result.append('hostname {}'.format(name))
         for intf_dict in ip_addr_netbox_dict:
             interface_config_list = []
