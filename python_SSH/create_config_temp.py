@@ -78,7 +78,7 @@ def create_device_config(name):
                 if intf_dict['enabled']:
                     interface_config_list.append('no shutdown')
 
-        result.append("interface {}\n{}\n!".format(interface_name, interface_config))
+                result.append("interface {}\n{}\n!".format(interface_name, interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
