@@ -66,23 +66,20 @@ def create_device_config(name):
         result.append('hostname {}\n!'.format(name))
         for interface_dict in ip_addr_netbox_dict:
             interface_config_list = []
+            interface_dsc = ''
             interface_name = interface_dict["interface"]["name"]     
             ip_address = IPv4Interface(interface_dict["address"])
             interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
             for intf_dict in interfaces_dict:
-                interface_desc = " description {}".format(intf_dict['description'])
+                interface_dsc += " description {}".format(intf_dict['description'])
                 interface_config_list.append(interface_desc)
                 if intf_dict['name'] == interface_name and (intf_dict['form_factor']['label'] != "Virtual"):
                     interface_config_list.append(' no switchport')
-          
-
 
             interface_config_list.append(' no shutdown')
-        
             interface_config = "\n".join(interface_config_list)
-
-            result.append("interface {}\n{}\n!".format(interface_name,interface_config))
+            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_dsc,interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
