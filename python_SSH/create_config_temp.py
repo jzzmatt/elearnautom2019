@@ -59,9 +59,17 @@ def create_device_config(name):
         for interface_dict in ip_addr_netbox_dict:
             interface_config_list = []
             interface_name = interface_dict["interface"]["name"]
+
+            if interface_dict['interface']['form_factor']['label'] != "Virtual" and device_type == "switch":
+                interface_config_list.append('no switchport')
+
             ip_address = IPv4Interface(interface_dict["address"])
             interface_config_list.append('ip address {} {}'.format(ip_address.ip, ip_address.netmask))
             interface_config = "\n".join(interface_config_list)
+
+            if interface_dict['interface']['enabled']:
+                interface_config_list.append('no shutdown')
+
             result.append("interface {}\n{}\n!".format(interface_name, interface_config))
    
     return '\n'.join(result)
