@@ -88,7 +88,7 @@ def get_sites_id():
                   sites_ids[v['name']] = obj['id']
     return sites_ids
 
-def nbx_add_device(name, display_name, device_type, site,status, device_role=None):
+def nbx_add_device(name, display_name, device_type, site, status, device_role=None):
     '''
     name: name of the Device . eg SW1
     device_type: CSR1000v, C6500 #this is match or link to manufacture, here is #2
@@ -96,8 +96,8 @@ def nbx_add_device(name, display_name, device_type, site,status, device_role=Non
     device_role: eg CORE-Switch, Edge, Access-Switch
     '''
     data = {
-        "name": str(name),
-        "display_name": str(display_name),
+        "name": name,
+        "display_name": display_name,
         "device_type": device_type,
         "site": site,
         "status": 1,
@@ -110,7 +110,7 @@ def nbx_add_device(name, display_name, device_type, site,status, device_role=Non
         NETBOX_URL + NETBOX_RESSOURCES['devices'], headers=HEADERS, json=data
     )
 
-    if req.status_code == 200 or req.status_code == 201:
+    if req.status_code == 201:
         print("Device {} was added sucessfully".format(data['name']))
     else:
         req.raise_for_status()
@@ -119,8 +119,9 @@ def add_devices():
     parsed_yaml = read_pyaml()
     devices_params_gen = from_device_params_from_yaml(parsed_yaml)
     for device_params in devices_params_gen:
-        print(device_params)
-        nbx_add_device(**device_params)
+        json_format = json.dumps(device_params)
+        print(json_format)
+        nbx_add_device(**json_format)
         time.sleep(1)
         break
     print('All devices have been imported')
