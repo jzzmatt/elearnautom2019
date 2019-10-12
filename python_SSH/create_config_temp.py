@@ -74,12 +74,13 @@ def create_device_config(name):
                 interface_description = " description {}".format(intf_dict['description'])
                 if intf_dict['name'] == interface_name and (intf_dict['form_factor']['label'] != "Virtual"):
                     interface_config_list.append(' no switchport')
+                    interface_config_list.append(interface_description)
 
             interface_config_list.append(' no shutdown')
         
             interface_config = "\n".join(interface_config_list)
 
-            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_description,interface_config))
+            result.append("interface {}\n{}\n!".format(interface_name,interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
