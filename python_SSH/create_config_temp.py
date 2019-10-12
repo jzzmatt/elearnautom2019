@@ -80,7 +80,7 @@ def create_device_config(name):
 
             interface_config = "\n".join(interface_config_list)
 
-            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_description,inter interface_config))
+            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_description,interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
