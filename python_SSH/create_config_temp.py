@@ -4,9 +4,8 @@ import requests
 import json
 import yaml
 from pprint import pprint
-import argparse
+from ipaddress import IPv4Interface
 import sys
-import netaddr
 import time
 
 
@@ -26,16 +25,51 @@ HEADERS = {
 }
 
 def create_device_config(name):
+    '''
+    return a Dictionnary of Devices
+    '''
     result = []
+
     query_params = {
-        'devices': name
+        'device': name
     }
+    
+    device_netbx_dict = requests.get(
+        NETBOX_RESSOURCES + NETBOX_RESSOURCES['devices'],
+        params=query_params,
+        headers=HEADERS
+    ).json()
+    
+    manufacturer = device_netbx_dict['result'][0]['device_type']['manufacturer']['name']
+    device_model = device_netbx_dict['result'][0]['device_type']['model']
+
+    if 'l2' in device_model.lower():
+        device_type = "switch"
+    else:
+        device_type = "router"
+
     ip_addr_netbox_dict = requests.get(
          NETBOX_URL + NETBOX_RESSOURCES['devices'],
          params=query_params,
          headers=HEADERS
-         ).json()
-    return json.dumps(ip_addr_netbox_dict, indent=4)
+         ).json()['results']
+
+    if manufacturer.low() == 'cisco':
+        result.append(f'hostname {name}')
+        for intf_dict in ip_addr_netbox_dict:
+            interface_config_list = []
+            interface_name = interface_dict["interface"]["name"]
+            ip_address = IPv4Interface['address']
+            interface_config_list.append(f'ip address {ip_address.ip} {ip_address.netmask}')
+            interface_config = "\n".join(interface_config_list)
+            result.append("interface {interface_name}\n{interface_config}\n!")
+   
+    return '\n'.join(result)
+    #return json.dumps(ip_addr_netbox_dict, indent=4)
+
+    
+
+
 
 
 
