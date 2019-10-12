@@ -26,11 +26,11 @@ NETBOX_RESSOURCES = {
 }
 
 
-TOKEN = '0123456789abcdef0123456789abcdef01234567'
+TOKEN = "0123456789abcdef0123456789abcdef01234567"
 HEADERS = {
-    'Authorization': 'Token {}'.format(TOKEN),
-    'Content_Type': 'application/json',
-    'Accept': 'application/json'
+    "Authorization": "Token {}".format(TOKEN),
+    "Content_Type": "application/json",
+    "Accept": "application/json; indent=4"
 }
 
 
