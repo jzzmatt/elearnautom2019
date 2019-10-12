@@ -49,7 +49,7 @@ def create_device_config(name):
         device_type = "router"
 
     ip_addr_netbox_dict = requests.get(
-         NETBOX_URL + NETBOX_RESSOURCES['devices'],
+         NETBOX_URL + NETBOX_RESSOURCES['ip_addresses'],
          params=query_params,
          headers=HEADERS
          ).json()['results'] 
