@@ -62,7 +62,7 @@ def create_device_config(name):
             ip_address = IPv4Interface(interface_dict["address"])
             interface_config_list.append('ip address {} {}'.format(ip_address.ip, ip_address.netmask))
             interface_config = "\n".join(interface_config_list)
-            result.append("interface {interface_name}\n{interface_config}\n!")
+            result.append("interface {}\n{}\n!".format(interface_name, interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
