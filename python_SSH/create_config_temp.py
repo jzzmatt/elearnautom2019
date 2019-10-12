@@ -73,10 +73,10 @@ def create_device_config(name):
 
             for intf_dict in interfaces_dict:
                 if intf_dict['name'] == interface_name:
-                    if intf_dict['interface']['form_factor']['label'] != "Virtual" and device_type == "switch":
+                    if intf_dict['form_factor']['label'] != "Virtual" and device_type == "switch":
                         interface_config_list.append('no switchport')
 
-                    if intf_dict['interface']['enabled']:
+                    if intf_dict['enabled']:
                         interface_config_list.append('no shutdown')
 
             result.append("interface {}\n{}\n!".format(interface_name, interface_config))
