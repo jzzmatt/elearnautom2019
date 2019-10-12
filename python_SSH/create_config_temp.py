@@ -52,23 +52,32 @@ def create_device_config(name):
          NETBOX_URL + NETBOX_RESSOURCES['ip_addresses'],
          params=query_params,
          headers=HEADERS
-         ).json()['results'] 
+         ).json()['results']
+
+    
+    interfaces_dict = requests.get(
+         NETBOX_URL + NETBOX_RESSOURCES['interfaces'],
+         params=query_params,
+         headers=HEADERS
+         ).json()['results']
+
 
     if manufacturer.lower() == 'cisco':
         result.append('hostname {}'.format(name))
         for interface_dict in ip_addr_netbox_dict:
             interface_config_list = []
             interface_name = interface_dict["interface"]["name"]
-
-            if interface_dict['interface']['form_factor']['label'] != "Virtual" and device_type == "switch":
-                interface_config_list.append('no switchport')
-
             ip_address = IPv4Interface(interface_dict["address"])
             interface_config_list.append('ip address {} {}'.format(ip_address.ip, ip_address.netmask))
             interface_config = "\n".join(interface_config_list)
 
-            if interface_dict['interface']['enabled']:
-                interface_config_list.append('no shutdown')
+            for intf_dict in interfaces_dict:
+                if intf_dict['name'] == interface_name:
+                    if intf_dict['interface']['form_factor']['label'] != "Virtual" and device_type == "switch":
+                        interface_config_list.append('no switchport')
+
+                    if intf_dict['interface']['enabled']:
+                        interface_config_list.append('no shutdown')
 
             result.append("interface {}\n{}\n!".format(interface_name, interface_config))
    
