@@ -22,7 +22,7 @@ TOKEN = '0123456789abcdef0123456789abcdef01234567'
 HEADERS = {
     "Authorization": "Token {}".format(TOKEN),
     "Content_Type": "application/json",
-    "Accept": "application/json ;indent=4"
+    "Accept": "application/json"
 }
 
 def create_device_config(name):
@@ -34,7 +34,7 @@ def create_device_config(name):
          NETBOX_URL + NETBOX_RESSOURCES['devices'],
          params=query_params,
          headers=HEADERS
-         )
+         ).json()
     return json.dumps(ip_addr_netbox_dict, indent=4)
 
 
