@@ -55,12 +55,12 @@ def create_device_config(name):
          ).json()['results']
 
     if manufacturer.low() == 'cisco':
-        result.append(f'hostname {name}')
+        result.append('hostname {}'.format(name))
         for intf_dict in ip_addr_netbox_dict:
             interface_config_list = []
             interface_name = interface_dict["interface"]["name"]
-            ip_address = IPv4Interface['address']
-            interface_config_list.append(f'ip address {ip_address.ip} {ip_address.netmask}')
+            ip_address = IPv4Interface(interface_dict['address'])
+            interface_config_list.append('ip address {} {}'.format(ip_address.ip, ip_address.netmask))
             interface_config = "\n".join(interface_config_list)
             result.append("interface {interface_name}\n{interface_config}\n!")
    
