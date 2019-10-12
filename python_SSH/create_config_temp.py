@@ -65,7 +65,6 @@ def create_device_config(name):
     if manufacturer.lower() == 'cisco':
         result.append('hostname {}\n!'.format(name))
         for interface_dict in ip_addr_netbox_dict:
-            interface_desc = None
             interface_config_list = []
             interface_name = interface_dict["interface"]["name"]     
             ip_address = IPv4Interface(interface_dict["address"])
@@ -73,6 +72,7 @@ def create_device_config(name):
 
             for intf_dict in interfaces_dict:
                 interface_desc = " description {}".format(intf_dict['description'])
+                interface_config_list.append(interface_desc)
                 if intf_dict['name'] == interface_name and (intf_dict['form_factor']['label'] != "Virtual"):
                     interface_config_list.append(' no switchport')
           
@@ -82,7 +82,7 @@ def create_device_config(name):
         
             interface_config = "\n".join(interface_config_list)
 
-            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_desc,interface_config))
+            result.append("interface {}\n{}\n!".format(interface_name,interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
