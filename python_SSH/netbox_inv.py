@@ -123,11 +123,9 @@ def add_devices():
     parsed_yaml = read_pyaml()
     devices_params_gen = from_device_params_from_yaml(parsed_yaml)
     for device_params in devices_params_gen:
-        #json_format = json.dumps(device_params)
-        #print(json_format)
         nbx_add_device(**device_params)
         time.sleep(1)
-        break
+        #break
     print('All devices have been imported')
 
 def main():

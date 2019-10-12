@@ -13,7 +13,7 @@ SITES = {
 }
 
 DEVICE_TYPES = {
-    "csrv1000v": 1,
+    "csr1000v": 1,
     "iosv-l2" : 2,
 }
 
