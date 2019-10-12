@@ -40,8 +40,8 @@ def create_device_config(name):
         headers=HEADERS
     ).json()
     
-    manufacturer = device_netbx_dict['result'][0]['device_type']['manufacturer']['name']
-    device_model = device_netbx_dict['result'][0]['device_type']['model']
+    manufacturer = device_netbx_dict['results'][0]['device_type']['manufacturer']['name']
+    device_model = device_netbx_dict['results'][0]['device_type']['model']
 
     if 'l2' in device_model.lower():
         device_type = "switch"
