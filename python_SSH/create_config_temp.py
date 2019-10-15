@@ -31,7 +31,7 @@ def create_device_config(name):
     result = []
 
     query_params = {
-        'device': name
+        'name': name
     }
     
     device_netbx_dict = requests.get(
