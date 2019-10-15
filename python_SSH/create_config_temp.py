@@ -75,6 +75,8 @@ def create_device_config(name):
         #Get Ip address and MASK
         for ip in ip_addr_netbox_dict:
             if ip['interface']['device']['name'] == name:
+                print(name)
+                break
                 if ip['interface']['name'] == interface_name:
                     ip_address = IPv4Interface(ip['interface']['address'])
                     print(ip_address)
