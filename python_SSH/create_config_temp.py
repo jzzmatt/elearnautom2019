@@ -53,25 +53,27 @@ def create_device_config(name):
          params=query_params,
          headers=HEADERS
          ).json()['results']
-    print(manufacturer)
-    print(device_model)
-    print(device_type)
+
+    # print(manufacturer)
+    # print(device_model)
+    # print(device_type)
 
     
-    # interfaces_dict = requests.get(
-    #      NETBOX_URL + NETBOX_RESSOURCES['interfaces'],
-    #      params=query_params,
-    #      headers=HEADERS
-    #      ).json()['results']
+    interfaces_dict = requests.get(
+          NETBOX_URL + NETBOX_RESSOURCES['interfaces'],
+          params=query_params,
+          headers=HEADERS
+          ).json()['results']
 
 
-
-    # if manufacturer.lower() == 'cisco':
-    #     result.append('hostname {}\n!'.format(name))
-    #     for interface_dict in ip_addr_netbox_dict:
-    #         interface_config_list = []
-    #         interface_name = interface_dict["interface"]["name"]
-    #         interface_dsc = " description {}".format(interface_dict['description'])    
+    if manufacturer.lower() == 'cisco':
+        result.append('hostname {}\n!'.format(name))
+        for interface_dict in interfaces_dict:
+             interface_config_list = []
+             interface_name = interface_dict["name"]
+             interface_dsc = " description {}".format(interface_dict['description'])
+        print(interface_name) 
+        print(interface_dict)   
     #         ip_address = IPv4Interface(interface_dict["address"])
     #         interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
