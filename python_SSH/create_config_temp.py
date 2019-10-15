@@ -61,7 +61,7 @@ def create_device_config(name):
           headers=HEADERS
           ).json()['results']
 
-    pprint(interfaces_dict)
+    pprint(interfaces_dict[0])
 
 
     # if manufacturer.lower() == 'cisco':
