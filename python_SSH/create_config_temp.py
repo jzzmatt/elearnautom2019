@@ -76,9 +76,7 @@ def create_device_config(name):
         for ip in ip_addr_netbox_dict:
             if ip['interface']['device']['name'] == name:
                 if ip['interface']['name'] == interface_name:
-                    print(interface_name)
-                    break
-                    ip_address = IPv4Interface(ip['interface']['address'])
+                    ip_address = IPv4Interface(ip['address'])
                     print(ip_address)
    
     #         ip_address = IPv4Interface(interface_dict["address"])
