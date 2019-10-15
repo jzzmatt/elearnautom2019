@@ -67,11 +67,11 @@ def create_device_config(name):
             if interface_dict['form_factor']['label'] != "Virtual":
                 interface_config_list.append(' no switchport')
  
-        #Get Ip address and MASK
-        for ip in ip_addr_netbox_dict:
-            if ip['interface']['name'] == interface_name:
-                ip_address = IPv4Interface(ip['address'])
-                interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
+            #Get Ip address and MASK
+            for ip in ip_addr_netbox_dict:
+                if ip['interface']['name'] == interface_name:
+                    ip_address = IPv4Interface(ip['address'])
+                    interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
         interface_config_list.append(' no shutdown')
         interface_config = "\n".join(interface_config_list)
