@@ -53,17 +53,17 @@ def create_device_config(name):
          params=query_params,
          headers=HEADERS
          ).json()['results']
-    print("get_ip address query: {}".format(ip_addr_netbox_dict))
+    print(manufacturer)
+    print(device_model)
+    print(device_type)
 
     
-    interfaces_dict = requests.get(
-         NETBOX_URL + NETBOX_RESSOURCES['interfaces'],
-         params=query_params,
-         headers=HEADERS
-         ).json()['results']
-    print("get interfaces query: {}".format(interfaces_dict))
+    # interfaces_dict = requests.get(
+    #      NETBOX_URL + NETBOX_RESSOURCES['interfaces'],
+    #      params=query_params,
+    #      headers=HEADERS
+    #      ).json()['results']
 
-    print(device_type)
 
 
     # if manufacturer.lower() == 'cisco':
