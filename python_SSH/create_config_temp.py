@@ -89,7 +89,7 @@ def create_device_config(name):
 
 
 def main():
-    print(create_device_config('SJ-SW1'))
+    create_device_config('SJ-SW1')
 
 
 if __name__ == '__main__':
