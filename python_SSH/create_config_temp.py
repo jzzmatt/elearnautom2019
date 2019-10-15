@@ -61,6 +61,8 @@ def create_device_config(name):
         result.append('hostname {}\n!'.format(name))
         #Get Interface Name and interface Description
         for interface_dict in interfaces_dict:
+            print(interface_dict)
+            break
             interface_config_list = []
             interface_name = interface_dict["name"]
             interface_dsc = " description {}".format(interface_dict["description"])
