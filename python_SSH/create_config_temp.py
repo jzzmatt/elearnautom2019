@@ -66,7 +66,6 @@ def create_device_config(name):
             interface_dsc = " description {}".format(interface_dict["description"])
             if interface_dict['form_factor']['label'] != "Virtual":
                 interface_config_list.append(' no switchport')
- 
             #Get Ip address and MASK
             for ip in ip_addr_netbox_dict:
                 if ip['interface']['name'] == interface_name:
