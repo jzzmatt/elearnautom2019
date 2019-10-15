@@ -57,7 +57,7 @@ def create_device_config(name):
     
     interfaces_dict = requests.get(
           NETBOX_URL + NETBOX_RESSOURCES['interfaces'],
-          params={'name': name},
+          params={'device': name},
           headers=HEADERS
           ).json()['results']
 
