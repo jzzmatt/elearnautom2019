@@ -41,9 +41,9 @@ def create_device_config(name):
     ).json()
     
     manufacturer = device_netbx_dict['results'][0]['device_type']['manufacturer']['name']
-    device_model = device_netbx_dict['results'][0]['device_type']['model']
+    device_model = device_netbx_dict['results'][0]['device_type']['slug'] #same as 'model'
 
-    if 'l2' in device_model.lower():
+    if 'l2' in device_model:
         device_type = "switch"
     else:
         device_type = "router"
@@ -53,6 +53,7 @@ def create_device_config(name):
          params=query_params,
          headers=HEADERS
          ).json()['results']
+    print("get_ip address query: {}".format(ip_addr_netbox_dict))
 
     
     interfaces_dict = requests.get(
@@ -60,33 +61,31 @@ def create_device_config(name):
          params=query_params,
          headers=HEADERS
          ).json()['results']
+    print("get interfaces query: {}".format(interfaces_dict))
+
+    print(device_type)
 
 
-    if manufacturer.lower() == 'cisco':
-        result.append('hostname {}\n!'.format(name))
-        for interface_dict in ip_addr_netbox_dict:
-            interface_config_list = []
-            interface_name = interface_dict["interface"]["name"]
-            interface_dsc = " description {}".format(interface_dict['description'])    
-            ip_address = IPv4Interface(interface_dict["address"])
-            interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
+    # if manufacturer.lower() == 'cisco':
+    #     result.append('hostname {}\n!'.format(name))
+    #     for interface_dict in ip_addr_netbox_dict:
+    #         interface_config_list = []
+    #         interface_name = interface_dict["interface"]["name"]
+    #         interface_dsc = " description {}".format(interface_dict['description'])    
+    #         ip_address = IPv4Interface(interface_dict["address"])
+    #         interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
-            for interface in interfaces_dict:
-                #   interface_dsc = " description {}".format(interface['description'])    
-                if interface['name'] == interface_name and (interface['form_factor']['label'] != "Virtual"):
-                        interface_config_list.append(' no switchport')
+    #         for interface in interfaces_dict:
+    #             #   interface_dsc = " description {}".format(interface['description'])    
+    #             if interface['name'] == interface_name and (interface['form_factor']['label'] != "Virtual"):
+    #                     interface_config_list.append(' no switchport')
 
-            interface_config_list.append(' no shutdown')
-            interface_config = "\n".join(interface_config_list)
-            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_dsc,interface_config))
+    #         interface_config_list.append(' no shutdown')
+    #         interface_config = "\n".join(interface_config_list)
+    #         result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_dsc,interface_config))
    
-    return '\n'.join(result)
+    # return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
-
-    
-
-
-
 
 
 def main():
