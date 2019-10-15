@@ -61,8 +61,6 @@ def create_device_config(name):
         result.append('hostname {}\n!'.format(name))
         #Get Interface Name and interface Description
         for interface_dict in interfaces_dict:
-            print(interface_dict)
-            break
             interface_config_list = []
             interface_name = interface_dict["name"]
             interface_dsc = " description {}".format(interface_dict["description"])
@@ -74,9 +72,9 @@ def create_device_config(name):
                     ip_address = IPv4Interface(ip['address'])
                     interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
-        interface_config_list.append(' no shutdown')
-        interface_config = "\n".join(interface_config_list)
-        result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_dsc,interface_config))
+            interface_config_list.append(' no shutdown')
+            interface_config = "\n".join(interface_config_list)
+            result.append("interface {}\n{}\n{}\n!".format(interface_name,interface_dsc,interface_config))
    
     return '\n'.join(result)
     #return json.dumps(ip_addr_netbox_dict, indent=4)
