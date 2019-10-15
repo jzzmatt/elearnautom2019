@@ -29,14 +29,10 @@ def create_device_config(name):
     return a Dictionnary of Devices
     '''
     result = []
-
-    query_params = {
-        'name': name
-    }
     
     device_netbx_dict = requests.get(
         NETBOX_URL + NETBOX_RESSOURCES['devices'],
-        params=query_params,
+        params={'name': name},
         headers=HEADERS
     ).json()
     
@@ -50,7 +46,7 @@ def create_device_config(name):
 
     ip_addr_netbox_dict = requests.get(
          NETBOX_URL + NETBOX_RESSOURCES['ip_addresses'],
-         params=query_params,
+         params={'device': name},
          headers=HEADERS
          ).json()['results']
 
