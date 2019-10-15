@@ -66,11 +66,18 @@ def create_device_config(name):
 
     if manufacturer.lower() == 'cisco':
         result.append('hostname {}\n!'.format(name))
+        #Get Interface and interface Description
         for interface_dict in interfaces_dict:
               interface_config_list = []
               interface_name = interface_dict["name"]
               interface_dsc = " description {}".format(interface_dict["description"])
               print(interface_name)
+        #Get Ip address and MASK
+        for ip in ip_addr_netbox_dict:
+            if ip['interface']['device']['name'] == name:
+                if ip['interface']['name'] == interface_name:
+                    ip_address = IPv4Interface(ip['interface']['address'])
+                    print(ip_address)
    
     #         ip_address = IPv4Interface(interface_dict["address"])
     #         interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
