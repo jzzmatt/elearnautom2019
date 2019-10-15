@@ -68,7 +68,7 @@ def create_device_config(name):
 
     if manufacturer.lower() == 'cisco':
         result.append('hostname {}\n!'.format(name))
-        for interface_dict in interfaces_dict:
+        for interface_dict in interfaces_dict[0]:
              interface_config_list = []
              interface_name = interface_dict["name"]
              interface_dsc = " description {}".format(interface_dict['description'])
