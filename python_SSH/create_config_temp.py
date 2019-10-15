@@ -72,8 +72,8 @@ def create_device_config(name):
              interface_config_list = []
              interface_name = interface_dict["name"]
              interface_dsc = " description {}".format(interface_dict['description'])
-        print(interface_name) 
-        print(interface_dict)   
+             print(interface_name, interface_dict) 
+   
     #         ip_address = IPv4Interface(interface_dict["address"])
     #         interface_config_list.append(' ip address {} {}'.format(ip_address.ip, ip_address.netmask))
 
